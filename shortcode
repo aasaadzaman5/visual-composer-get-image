@@ -1,0 +1,62 @@
+	/*
+		Shortcode For Menu
+	*/
+	
+	function italy_menu( $menu1, $menu2 ){
+		ob_start();
+		
+		$menuatts = shortcode_atts(array(
+			'menu_image'	=>	'',
+			'menu_title'	=>	'',
+			'menu_money'	=>	'',
+		), $menu1 );
+		
+	
+		
+		
+	?>
+		<div class="post">
+			<a href="#"><?php 	$image_ids=explode(',',$menuatts['menu_image']);
+		$image_no = 1;
+		foreach( $image_ids as $image_id ){
+		$images = wp_get_attachment_image_src( $image_id, 'thumbnail' );
+		$output ='<img src="'. $images[0] .'" alt="" />';
+		$image_no++;
+		}
+		 
+		return $output; ?></a>
+			<div class="wrapper">
+			  <h5><a href="#"><?php echo $menuatts['menu_title']; ?></a></h5>
+			  <span><?php echo $menuatts['menu_money']; ?></span>
+			</div>
+		</div>
+	<?php
+		return ob_get_clean();
+	}
+	add_shortcode('menu','italy_menu');
+	
+	
+	if(function_exists(vc_map)){
+		vc_map(array(
+			'name'	=>	'Italy Food Menu',
+			'base'	=>	'menu',
+			'params'	=>	array(
+				array(
+					'param_name'		=>	'menu_image',
+					'type'				=>	'attach_images',
+					'heading'			=>	'Menu Image'
+				),
+				array(
+					'param_name'		=>	'menu_title',
+					'type'				=>	'textfield',
+					'heading'			=>	'Menu Title'
+				),
+				array(
+					'param_name'		=>	'menu_money',
+					'type'				=>	'textfield',
+					'heading'			=>	'Menu Money'
+				),
+			)
+		));
+	}
+	
